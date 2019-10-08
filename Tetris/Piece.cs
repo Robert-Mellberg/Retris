@@ -7,7 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+/*
+ * The piece class handles all logic connected to the four pieces: current piece, next piece, swapped piece and hypo piece.
+ * 
+ * Logic includes swapping pieces, generating random pieces, rotating pieces and droping pieces.
+ * A piece is represented by between 1-9 squares (see Square.cs)
+ * The piece class uses the current board (see Board.cs) as board reference.
+ * 
+ */
 namespace Tetris
 {
 
@@ -21,18 +28,41 @@ namespace Tetris
         List<Square> currentPiece;
         List<Square> nextPiece;
         List<Square> switchPiece;
+        List<Square> hypoBrick;
         Form1 form;
         Random r;
         public Piece(Form1 form)
         {
             currentPiece = new List<Square>();
+            hypoBrick = new List<Square>();
             this.form = form;
             r = new Random();
             generateNextPiece();
-
+            for(int i = 0; i < 9; i++)
+            {
+                hypoBrick.Add(new Square(-10, -10, Color.Gray, form, null));
+            }
         }
 
-        
+        public void clearPiece()
+        {
+            clearSquareLists(currentPiece);
+            clearSquareLists(nextPiece);
+            clearSquareLists(switchPiece);
+            clearSquareLists(hypoBrick);
+
+        }
+        private void clearSquareLists(List<Square> squares)
+        {
+            if(squares == null)
+            {
+                return;
+            }
+            foreach (Square sq in squares)
+            {
+                sq.removeSquare();
+            }
+        }
 
         public void generateNewPiece(Board b)
         {
@@ -43,7 +73,7 @@ namespace Tetris
             currentPiece = nextPiece;
             foreach (Square sq in currentPiece)
             {
-                sq.setPosition(4, 0);
+                sq.setRelativePosition(4, 0);
             }
             generateNextPiece();
 
@@ -66,11 +96,11 @@ namespace Tetris
             }
             foreach (Square sq in currentPiece)
             {
-                sq.setPosition(4, 0);
+                sq.setRelativePosition(4, 0);
             }
             foreach (Square sq in switchPiece)
             {
-                sq.setPosition(-10, 0);
+                sq.setRelativePosition(-10, 3);
             }
         }
 
@@ -79,7 +109,7 @@ namespace Tetris
             nextPiece = generateRandomPiece();
             foreach(Square sq in nextPiece)
             {
-                sq.setPosition(20, 0);
+                sq.setRelativePosition(20, 3);
             }
         }
 
@@ -138,6 +168,7 @@ namespace Tetris
                     if (piece[y, x] == 1)
                     {
                         squares.Add(new Square(x, y, color, form, rotateVectors[y, x]));
+                        squares.Last().BringToFront();
                     }
                 }
             }
@@ -242,6 +273,32 @@ namespace Tetris
             }
         }
 
+        public void updateHypoBrick(Board b)
+        {
+            foreach(Square sq in hypoBrick)
+            {
+                sq.setRelativePosition(0, 0);
+            }
+            int index = 0;
+            int yDistance = getYDistanceUntilCollision(b);
 
+            foreach(Square sq in currentPiece)
+            {
+                hypoBrick[index].setPosition(sq.getX(), sq.getY()+yDistance-1);
+                index++;
+            }
+        }
+
+        public bool isColliding(Board b)
+        {
+            foreach(Square sq in currentPiece)
+            {
+                if (sq.isColliding(b))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * The board class is where the board is represented as a 2 dimensional array of squares
+ * 
+ * It has methods for inserting a square, clearing full lines on the board and calculating the y position of the highest square in a column. 
+ * 
+ */
 namespace Tetris
 {
     class Board
@@ -66,7 +72,7 @@ namespace Tetris
             return board.GetLength(1);
         }
 
-        public void clearLines()
+        public int clearLines()
         {
             int amountOfClearedLines = 0;
             for(int y = 14; y >= 0; y--)
@@ -107,7 +113,21 @@ namespace Tetris
                     }
                 }
             }
+            return amountOfClearedLines;
         }
 
+        public void clearBoard()
+        {
+            for(int y = 0; y <= 14; y++)
+            {
+                for(int x = 0; x <= 9; x++)
+                {
+                    if (board[y, x] != null)
+                    {
+                        board[y, x].removeSquare();
+                    }
+                }
+            }
+        }
     }
 }

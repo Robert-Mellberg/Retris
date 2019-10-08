@@ -8,6 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * A square is a component of a piece and is referenced by the Piece class.
+ * This class handles the graphics connected with the square by using the inherited class PictureBox
+ * It has methods for setting positions, changing positions, checking if it can rotate and checking if it is colliding with another square. 
+ * 
+ * 
+ */
 namespace Tetris
 {
     class Square : PictureBox
@@ -65,7 +72,7 @@ namespace Tetris
             Location = new Point(x * SIZE + XOFFSET, y * SIZE + 50);
         }
 
-        public void setPosition(int x, int y)
+        public void setRelativePosition(int x, int y)
         {
             this.x = x+startX;
             this.y = y+startY;
@@ -73,9 +80,22 @@ namespace Tetris
             rotateVector = startRotateVector;
         }
 
+        public void setPosition(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+            Location = new Point(this.x * SIZE + XOFFSET, this.y * SIZE + 50);
+            rotateVector = startRotateVector;
+        }
+
         public bool canRotate(Board b)
         {
             return b.spaceIsEmpty(x + rotateVector.x, y + rotateVector.y);
+        }
+
+        public bool isColliding(Board b)
+        {
+            return !b.spaceIsEmpty(x, y);
         }
 
         public void rotate()
@@ -89,6 +109,7 @@ namespace Tetris
         public void removeSquare()
         {
             form.Controls.Remove(this);
+            
         }
     }
 }
