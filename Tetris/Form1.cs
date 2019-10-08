@@ -121,6 +121,8 @@ namespace Tetris
             this.ActiveControl = label1;
             gameActive = true;
             timer1.Start();
+            score = 0;
+            label1.Text = "Score: " + score;
         }
     }
 }
