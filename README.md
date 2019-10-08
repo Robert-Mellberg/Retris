@@ -2,7 +2,7 @@
 
 ## About the game
 
-Have you grown tired of playing tetris will all the predictable game pieces? Then try playing Tetris with random pieces, or Retris.
+Have you grown tired of playing tetris with all the predictable game pieces? Then try playing Tetris with random pieces, or Retris.
 
 Every game piece consists of between 1-9 squares in a maximum of 3x3 formation. The pieces should then be dropped on the board so that a horisontal line gets filled with squares. If a line is filled with squares, then those squares will be removed and you will gain 1 point. Try if you can get more points than in the clip below.
 
@@ -18,6 +18,7 @@ The color of the piece depended on which elements that had been set to being squ
 * R = SQ[0,0]*42+SQ[1,0]*84+SQ[2,0]*126
 * G = SQ[0,1]*42+SQ[1,1]*84+SQ[2,1]*126
 * B = SQ[0,2]*42+SQ[1,2]*84+SQ[2,2]*126
+
 Which is guaranteed to generate a unique color for each piece.
 
 **Note** that the classes have class documentations but are missing method documentations. Send me an email if you need clarification about anything.
