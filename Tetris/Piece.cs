@@ -18,26 +18,74 @@ namespace Tetris
         {new Vector2(1, -1), new Vector2(0, 0), new Vector2(-1, 1) },
         {new Vector2(0, -2), new Vector2(-1, -1), new Vector2(-2, 0) } };
 
-        List<Square> squares;
+        List<Square> currentPiece;
+        List<Square> nextPiece;
+        List<Square> switchPiece;
         Form1 form;
         Random r;
         public Piece(Form1 form)
         {
-            squares = new List<Square>();
+            currentPiece = new List<Square>();
             this.form = form;
             r = new Random();
+            generateNextPiece();
+
         }
 
         
 
         public void generateNewPiece(Board b)
         {
-            foreach(Square sq in squares)
+            foreach(Square sq in currentPiece)
             {
                 b.insertSquare(sq);
             }
-            squares.Clear();
+            currentPiece = nextPiece;
+            foreach (Square sq in currentPiece)
+            {
+                sq.setPosition(4, 0);
+            }
+            generateNextPiece();
 
+
+
+        }
+
+        public void swapPiece()
+        {
+            List<Square> temp = switchPiece;
+            switchPiece = currentPiece;
+            if (temp == null)
+            {
+                currentPiece = nextPiece;
+                generateNextPiece();
+            }
+            else
+            {
+                currentPiece = temp;
+            }
+            foreach (Square sq in currentPiece)
+            {
+                sq.setPosition(4, 0);
+            }
+            foreach (Square sq in switchPiece)
+            {
+                sq.setPosition(-10, 0);
+            }
+        }
+
+        private void generateNextPiece()
+        {
+            nextPiece = generateRandomPiece();
+            foreach(Square sq in nextPiece)
+            {
+                sq.setPosition(20, 0);
+            }
+        }
+
+        private List<Square> generateRandomPiece()
+        {
+            List<Square> squares = new List<Square>();
             int[,] piece = new int[,] {
                 { -1, -1, -1 },
                 { -1, -1, -1 } ,
@@ -46,10 +94,10 @@ namespace Tetris
             Stack<Vector2> stack = new Stack<Vector2>();
             stack.Push(new Vector2(r.Next(3), r.Next(3)));
             bool firstSquare = true;
-            while(stack.Count != 0)
+            while (stack.Count != 0)
             {
                 Vector2 pos = stack.Pop();
-                if(piece[pos.y, pos.x] != -1)
+                if (piece[pos.y, pos.x] != -1)
                 {
                     continue;
                 }
@@ -60,7 +108,7 @@ namespace Tetris
                     firstSquare = false;
                     piece[pos.y, pos.x] = 1;
                 }
-                if(piece[pos.y, pos.x] == 0)
+                if (piece[pos.y, pos.x] == 0)
                 {
                     continue;
                 }
@@ -71,9 +119,9 @@ namespace Tetris
                 neighbours.Add(new Vector2(pos.x, pos.y - 1));
                 neighbours.Add(new Vector2(pos.x, pos.y + 1));
 
-                foreach(Vector2 neighbour in neighbours)
+                foreach (Vector2 neighbour in neighbours)
                 {
-                    if(neighbour.x < 0 || neighbour.x > 2 || neighbour.y < 0 || neighbour.y > 2 || piece[neighbour.y, neighbour.x] != -1)
+                    if (neighbour.x < 0 || neighbour.x > 2 || neighbour.y < 0 || neighbour.y > 2 || piece[neighbour.y, neighbour.x] != -1)
                     {
                         continue;
                     }
@@ -83,22 +131,22 @@ namespace Tetris
             }
 
             Color color = calculatePieceColor(piece);
-            for(int y = 0; y < 3; y++)
+            for (int y = 0; y < 3; y++)
             {
-                for(int x = 0; x < 3; x++)
+                for (int x = 0; x < 3; x++)
                 {
-                    if(piece[y, x] == 1)
+                    if (piece[y, x] == 1)
                     {
                         squares.Add(new Square(x, y, color, form, rotateVectors[y, x]));
                     }
                 }
             }
-
+            return squares;
         }
 
         public void dropDown()
         {
-            foreach(Square sq in squares)
+            foreach(Square sq in currentPiece)
             {
                 sq.dropDown();
             }
@@ -107,7 +155,7 @@ namespace Tetris
         public int getYDistanceUntilCollision(Board b)
         {
             int distance = 999;
-            foreach(Square sq in squares)
+            foreach(Square sq in currentPiece)
             {
                 int x = sq.getX();
                 int y = sq.getY();
@@ -122,7 +170,7 @@ namespace Tetris
         public void forceDrop(Board b)
         {
             int minDistance = getYDistanceUntilCollision(b);
-            foreach(Square sq in squares)
+            foreach(Square sq in currentPiece)
             {
                 sq.increaseY(minDistance-1);
             }
@@ -165,7 +213,7 @@ namespace Tetris
 
         public void rotate(Board b)
         {
-            foreach (Square sq in squares)
+            foreach (Square sq in currentPiece)
             {
                 if (!sq.canRotate(b))
                 {
@@ -173,7 +221,7 @@ namespace Tetris
                 }
             }
 
-            foreach (Square sq in squares)
+            foreach (Square sq in currentPiece)
             {
                 sq.rotate();
             }
@@ -181,14 +229,14 @@ namespace Tetris
 
         private void moveXDirection(Board b, int increment)
         {
-            foreach (Square sq in squares)
+            foreach (Square sq in currentPiece)
             {
                 if (!b.spaceIsEmpty(sq.getX() + increment, sq.getY()))
                 {
                     return;
                 }
             }
-            foreach (Square sq in squares)
+            foreach (Square sq in currentPiece)
             {
                 sq.increaseX(increment);
             }

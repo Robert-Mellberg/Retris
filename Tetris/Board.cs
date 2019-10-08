@@ -66,5 +66,48 @@ namespace Tetris
             return board.GetLength(1);
         }
 
+        public void clearLines()
+        {
+            int amountOfClearedLines = 0;
+            for(int y = 14; y >= 0; y--)
+            {
+                int countSquares = 0;
+                for(int x = 0; x <= 9; x++)
+                {
+                    if(board[y, x] != null)
+                    {
+                        countSquares++;
+                    }
+                }
+
+                if (countSquares == 10)
+                {
+                    amountOfClearedLines++;
+                    for (int x = 0; x <= 9; x++)
+                    {
+                        board[y, x].removeSquare();
+                        board[y, x] = null;
+                    }
+                }
+                else
+                {
+                    if(amountOfClearedLines == 0)
+                    {
+                        continue;
+                    }
+                    for (int x = 0; x <= 9; x++)
+                    {
+                        //swap
+                        board[y+amountOfClearedLines, x] = board[y, x];
+                        if (board[y, x] != null)
+                        {
+                            board[y, x].increaseY(amountOfClearedLines);
+                            board[y, x] = null;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -31,8 +31,11 @@ namespace Tetris
             board = new Board();
             p.generateNewPiece(board);
             timer1.Start();
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
         }
 
+        bool swappedThisTurn = false;
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -55,6 +58,14 @@ namespace Tetris
             {
                 dropPiece();
             }
+            else if(e.KeyCode == Keys.C)
+            {
+                if (!swappedThisTurn)
+                {
+                    swappedThisTurn = true;
+                    p.swapPiece();
+                }
+            }
         }
 
         private void dropPiece()
@@ -62,6 +73,8 @@ namespace Tetris
             if (p.getYDistanceUntilCollision(board) == 1)
             {
                 p.generateNewPiece(board);
+                swappedThisTurn = false;
+                board.clearLines();
             }
             else
             {

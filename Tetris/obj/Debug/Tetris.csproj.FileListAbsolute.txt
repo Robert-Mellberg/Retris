@@ -8,3 +8,12 @@ C:\Users\Lotta\source\repos\Tetris\Tetris\bin\Debug\Tetris.exe
 C:\Users\Lotta\source\repos\Tetris\Tetris\bin\Debug\Tetris.pdb
 C:\Users\Lotta\source\repos\Tetris\Tetris\obj\Debug\Tetris.exe
 C:\Users\Lotta\source\repos\Tetris\Tetris\obj\Debug\Tetris.pdb
+C:\Users\Robert\programmering\Retris\Tetris\bin\Debug\Tetris.exe.config
+C:\Users\Robert\programmering\Retris\Tetris\bin\Debug\Tetris.exe
+C:\Users\Robert\programmering\Retris\Tetris\bin\Debug\Tetris.pdb
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.csprojAssemblyReference.cache
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.Form1.resources
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.Properties.Resources.resources
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.csproj.GenerateResource.cache
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.exe
+C:\Users\Robert\programmering\Retris\Tetris\obj\Debug\Tetris.pdb
