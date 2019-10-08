@@ -6,7 +6,7 @@ Have you grown tired of playing tetris will all the predictable game pieces? The
 
 Every game piece consists of between 1-9 squares in a maximum of 3x3 formation. The pieces should then be dropped on the board so that a horisontal line gets filled with squares. If a line is filled with squares, then those squares will be removed and you will gain 1 point. Try if you can get more points than in the clip below.
 
-![](Media/Form1-2019-10-08-21-30-38_Trim.gif)
+![](GIFs/Form1-2019-10-08-21-30-38_Trim.gif)
 
 ## About the project
 
